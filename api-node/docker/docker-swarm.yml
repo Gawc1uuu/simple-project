@@ -6,22 +6,38 @@ services:
     ports:
       - 5432:5432
     volumes:
-      - ./pgdata:/var/lib/postgresql/data/
+      - pgdata:/var/lib/postgresql/data/
     environment:
       POSTGRES_USERNAME: postgres
-      POSTGRES_PASSWORD: password
+      POSTGRES_PASSWORD_FILE=/run/secrets/postgres-password 
       POSTGRES_DB: test
+    secrets:
+      - postgres-password
     healthcheck:
       test: pg_isready -U postgres -d test
       interval: 1s
       timeout: 2s
       retries: 20 
+    networks:
+      - backend
   api:
     image: gawciuherodotus/simple-project
     ports:
       - 3000:3000
     environment:
-      - DATABASE_URL=postgres://postgres:password@postgres:5432/test
+      - DATABASE_URL_FILE=/run/secrets/database-url
+    secrets:
+      - database-url
+    networks: 
+     - backend
 volumes:
-  pgdata: 
+  pgdata:
+networks:
+  frontend:
+  backend:
+secrets:
+  database-url:
+    external: true
+  postgres-password:
+    external: true
   
