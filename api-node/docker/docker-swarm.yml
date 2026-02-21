@@ -18,20 +18,10 @@ services:
       retries: 20 
   api:
     image: gawciuherodotus/simple-project
-    container_name: simple-project-api
     ports:
       - 3000:3000
     environment:
       - DATABASE_URL=postgres://postgres:password@postgres:5432/test
-    volumes:
-      - type: bind
-        source: ../src
-        target: /usr/src/app/src
-      - type: bind
-        source: ../drizzle
-        target: /usr/src/app/drizzle
-      - type: volume
-        target: /usr/src/app/node_modules
-    depends_on:
-      postgres:
-        condition: service_healthy
+volumes:
+  pgdata: 
+  

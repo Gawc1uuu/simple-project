@@ -20,7 +20,8 @@ RUN bun install --frozen-lockfile --production
 
 USER bun
 
-COPY --chown=bun:bun ./src .
+COPY --chown=bun:bun ./src ./src
+COPY --chown=bun:bun ./drizzle ./drizzle
 
 EXPOSE 3000/tcp 
 
