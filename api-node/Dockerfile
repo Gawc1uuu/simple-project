@@ -4,7 +4,7 @@ WORKDIR /usr/src/app
 
 COPY package.json bun.lock ./
 
-FROM base as dev
+FROM base AS dev
 
 RUN bun install --frozen-lockfile
 
@@ -12,9 +12,9 @@ COPY . .
 
 CMD ["bun","run","dev"]
 
-FROM base as production
+FROM base AS production
 
-ENV NODE_ENV production
+ENV NODE_ENV=production
 
 RUN bun install --frozen-lockfile --production
 
