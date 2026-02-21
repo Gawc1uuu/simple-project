@@ -19,7 +19,7 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: |
-            Gawc1uuu/simple-project
+            gawciuherodotus/simple-project
           tags: |
             type=raw,value=latest
             type=ref,event=branch
