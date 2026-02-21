@@ -8,8 +8,9 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data/
     environment:
-      - PGUSER=postgres
+      - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD_FILE=/run/secrets/postgres-password 
+      - POSTGRES_DB=test
     secrets:
       - postgres-password
     healthcheck:
