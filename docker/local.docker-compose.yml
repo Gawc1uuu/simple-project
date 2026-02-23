@@ -18,20 +18,40 @@ services:
   api:
     container_name: simple-project-api
     build:
-      context: ../
+      context: ../api-node
       dockerfile: Dockerfile
       target: dev
+    restart: on-failure
     ports:
       - 3000:3000
     environment:
       - DATABASE_URL=postgres://postgres:password@postgres:5432/test
     volumes:
       - type: bind
-        source: ../src
+        source: ../api-node/src
         target: /usr/src/app/src
       - type: bind
-        source: ../drizzle
+        source: ../api-node/drizzle
         target: /usr/src/app/drizzle
+      - type: volume 
+        target: /usr/src/app/node_modules
+  frontend:
+    container_name: simple-project-frontend
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+      target: dev
+    ports:
+      - 4000:4000
+    environment: 
+      - NEXT_PUBLIC_BACKEND_URL=http://localhost:3000
+    volumes: 
+      - type: bind
+        source: ../frontend
+        target: /usr/src/frontend
+      - type: volume
+        target: /usr/src/frontend/node_modules
+      
     depends_on:
       postgres:
         condition: service_healthy

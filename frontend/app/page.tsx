@@ -3,17 +3,19 @@
 import { useEffect, useState } from "react";
 
 export const fetchData = async () =>{
-  try{
-    const response = await fetch("http://localhost:3000/api/timestamp");
-    if(!response.ok) throw new Error('Błąd sieci')
-    const result = await response.json()
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+    const response = await fetch(`${baseUrl}/api/timestamp`);
+    
+    if(!response.ok) throw new Error(`Błąd sieci: ${response.status}`);
+    
+    const result = await response.json();
     return result;
-  }catch(err){
-    console.error(err)
+  } catch(err) {
+    console.error("Błąd fetch:", err);
     return null;
   }
 }
-
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState<string | null>(null);
@@ -38,7 +40,7 @@ export default function Home() {
   return (
     <div className="max-w-6xl min-h-screen mx-auto border flex justify-center items-center">
       <div className="text-center">
-      <h1>Hello from frontend</h1>
+      <h1>Hello from frontend dupa</h1>
       <p>node api</p>
       {isLoading && !data && <p>Loading...</p>}
       {data && <p>{data}</p>}
