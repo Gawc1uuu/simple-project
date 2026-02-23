@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "bun run --watch src/index.ts",
     "docker:up": "docker-compose -p test -f ./docker/local.docker-compose.yml up --build",
-    "start":"bun run src/index.ts"
+    "start": "bun run src/index.ts"
   },
   "devDependencies": {
     "@types/bun": "latest",
@@ -18,7 +18,9 @@
     "typescript": "^5"
   },
   "dependencies": {
+    "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
+    "cors": "^2.8.6",
     "dotenv": "^17.3.1",
     "drizzle-orm": "^0.45.1",
     "express": "^5.2.1",

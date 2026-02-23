@@ -32,8 +32,6 @@ services:
       - type: bind
         source: ../drizzle
         target: /usr/src/app/drizzle
-      - type: volume
-        target: /usr/src/app/node_modules
     depends_on:
       postgres:
         condition: service_healthy

@@ -1,7 +1,10 @@
 import express from 'express';
 import { pool } from '../drizzle/db';
+import cors from 'cors';
 
 const app = express();
+
+app.use(cors());
 
 app.get("/", (req,res)=>{
     return res.status(200).json({
