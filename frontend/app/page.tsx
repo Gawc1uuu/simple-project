@@ -42,6 +42,7 @@ export default function Home() {
       <p>node api</p>
       {isLoading && !data && <p>Loading...</p>}
       {data && <p>{data}</p>}
+      {error && <p>{error}</p>}
       </div>
     </div>
   );
