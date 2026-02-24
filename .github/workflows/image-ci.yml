@@ -14,12 +14,25 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Docker meta
-        id: meta
+      - name: Docker meta for api
+        id: meta-api
         uses: docker/metadata-action@v4
         with:
           images: |
             gawciuherodotus/simple-project
+          tags: |
+            type=raw,value=latest
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=raw,value={{date 'YYYYMMDD'}}-{{sha}}
+      - name: Docker meta for frontend
+        id: meta-frontend
+        uses: docker/metadata-action@v4
+        with:
+          images: |
+            gawciuherodotus/simple-project-frontend
           tags: |
             type=raw,value=latest
             type=ref,event=branch
@@ -34,17 +47,18 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and push
+      - name: Build and push API
         uses: docker/build-push-action@v4
         with:
           file: ./api-node/Dockerfile
           context: ./api-node
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
-      - name: Build and push
+          tags: ${{ steps.meta-api.outputs.tags }}
+
+      - name: Build and push frontend
         uses: docker/build-push-action@v4
         with:
           file: ./frontend/Dockerfile
           context: ./frontend
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: ${{ steps.meta-frontend.outputs.tags }}
