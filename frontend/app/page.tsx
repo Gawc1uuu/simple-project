@@ -4,8 +4,7 @@ import { useEffect, useState } from "react";
 
 export const fetchData = async () =>{
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
-    const response = await fetch(`${baseUrl}/api/timestamp`);
+    const response = await fetch(`/api/timestamp`);
     
     if(!response.ok) throw new Error(`Błąd sieci: ${response.status}`);
     
@@ -40,7 +39,7 @@ export default function Home() {
   return (
     <div className="max-w-6xl min-h-screen mx-auto border flex justify-center items-center">
       <div className="text-center">
-      <h1>Hello from frontend dupa</h1>
+      <h1>Hello from frontend siema</h1>
       <p>node api</p>
       {isLoading && !data && <p>Loading...</p>}
       {data && <p>{data}</p>}
