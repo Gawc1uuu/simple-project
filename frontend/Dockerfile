@@ -36,4 +36,4 @@ COPY --chown=bun:bun package.json ./
 
 EXPOSE 4000/tcp 
 
-CMD ["bun","run","start"]
+CMD ["bun","run","server.js"]
