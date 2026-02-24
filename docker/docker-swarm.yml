@@ -37,6 +37,19 @@ services:
     networks: 
      - backend
      - frontend
+  nginx:
+    image: nginx:alpine
+    ports:
+      - 80:80
+    configs:
+      - source: nginx_config
+        target: /etc/nginx/nginx.conf
+    networks:
+      - frontend
+      - backend
+configs:
+  nginx_config:
+    file: ./nginx.conf
 volumes:
   pgdata:
 networks:
