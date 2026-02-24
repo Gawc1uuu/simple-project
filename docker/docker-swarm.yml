@@ -22,8 +22,6 @@ services:
       - backend
   api:
     image: gawciuherodotus/simple-project
-    ports:
-      - 3000:3000
     environment:
       - DATABASE_URL_FILE=/run/secrets/database-url
     secrets:
@@ -32,8 +30,6 @@ services:
      - backend
   frontend:
     image: gawciuherodotus/simple-project-frontend:latest
-    ports:
-      - 4000:4000
     networks: 
      - backend
      - frontend
