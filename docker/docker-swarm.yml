@@ -15,30 +15,47 @@ services:
       - postgres-password
     healthcheck:
       test: pg_isready -U postgres -d test
-      interval: 1s
-      timeout: 2s
-      retries: 20 
+      interval: 10s
+      timeout: 5s
+      retries: 5
     networks:
       - backend
+
   api:
-    image: gawciuherodotus/simple-project
+    image: gawciuherodotus/simple-project:latest
     environment:
       - DATABASE_URL_FILE=/run/secrets/database-url
     secrets:
       - database-url
     networks: 
      - backend
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    deploy:
+      update_config:
+        order: start-first     
+        failure_action: rollback
+        delay: 10s
+
   frontend:
     image: gawciuherodotus/simple-project-frontend:latest
     networks: 
      - backend
      - frontend
-  healthcheck:
-    test: ["CMD", "bun", "/usr/src/app/healthcheck.ts"]
-    interval: 30s
-    timeout: 5s
-    retries: 3
-    start_period: 10s
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+    deploy:
+      update_config:
+        order: start-first
+        failure_action: rollback
   nginx:
     image: nginx:alpine
     ports:
@@ -49,12 +66,13 @@ services:
     networks:
       - frontend
       - backend
-    healthchecks:
+    healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:80/ping"]     
       interval: 30s
       timeout: 5s
       retries: 3
       start_period: 10s 
+
 configs:
   nginx_config:
     file: ./nginx.conf
@@ -68,4 +86,3 @@ secrets:
     external: true
   postgres-password:
     external: true
-  
