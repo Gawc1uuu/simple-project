@@ -9,7 +9,7 @@ app.use(cors());
 app.get("/", (req,res)=>{
     return res.status(200).json({
         alive:true,
-        test:'dupa'
+        test:'Test'
     });
 })
 
