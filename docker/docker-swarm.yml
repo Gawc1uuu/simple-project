@@ -30,7 +30,7 @@ services:
     networks: 
      - backend
     healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/"]
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://127.0.0.1:3000/"]
       interval: 30s
       timeout: 5s
       retries: 3
@@ -43,11 +43,14 @@ services:
 
   frontend:
     image: gawciuherodotus/simple-project-frontend:latest
+    environment:
+      - HOSTNAME=0.0.0.0
+      - PORT=3000
     networks: 
      - backend
      - frontend
     healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/"]
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://127.0.0.1:3000/"]
       interval: 30s
       timeout: 5s
       retries: 3
